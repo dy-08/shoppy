@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      id="favicon"
+      rel="icon"
+      type="image/png"
+      href="/laptopParrot/laptop_parrot-0.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shoppy</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // favicon
+      let faviconRoute = '/laptopParrot/';
+      let faviconNames = [
+        'laptop_parrot-0.png',
+        'laptop_parrot-1.png',
+        'laptop_parrot-2.png',
+        'laptop_parrot-3.png',
+        'laptop_parrot-4.png',
+        'laptop_parrot-5.png',
+        'laptop_parrot-6.png',
+        'laptop_parrot-7.png',
+        'laptop_parrot-8.png',
+        'laptop_parrot-9.png',
+      ];
+      let idx = 0;
+
+      const faviconId = setInterval(animation, 200);
+
+      function animation() {
+        document
+          .getElementById('favicon')
+          .setAttribute('href', faviconRoute + faviconNames[idx++]);
+        idx %= faviconNames.length;
+      }
+    </script>
+  </body>
+</html>
