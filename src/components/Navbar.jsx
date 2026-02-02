@@ -2,15 +2,13 @@ import { Link } from 'react-router-dom';
 import { BiSolidCommentAdd } from 'react-icons/bi';
 import { login, logout, onUserStateChange } from '../api/firebase';
 import { useEffect, useState } from 'react';
+import User from './User';
 
 export default function Navbar() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    onUserStateChange((user) => {
-      console.log(user);
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
   const handleLogin = () => {
     // login().then((user) => setUser(user));
@@ -30,6 +28,7 @@ export default function Navbar() {
         <Link to='/products/new' className='text-2xl'>
           <BiSolidCommentAdd />
         </Link>
+        {user && <User user={user} />}
         {!user && <button onClick={handleLogin}>Login</button>}
         {user && <button onClick={handleLogout}>Logout</button>}
       </nav>
