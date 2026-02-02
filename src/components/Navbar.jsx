@@ -3,6 +3,7 @@ import { BiSolidCommentAdd } from 'react-icons/bi';
 import { login, logout, onUserStateChange } from '../api/firebase';
 import { useEffect, useState } from 'react';
 import User from './User';
+import Button from './ui/Button';
 
 export default function Navbar() {
   const [user, setUser] = useState();
@@ -28,12 +29,14 @@ export default function Navbar() {
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Products</Link>
         <Link to='/carts'>Carts</Link>
-        <Link to='/products/new' className='text-2xl'>
-          <BiSolidCommentAdd />
-        </Link>
+        {user && user.isAdmin && (
+          <Link to='/products/new' className='text-2xl'>
+            <BiSolidCommentAdd />
+          </Link>
+        )}
         {user && <User user={user} />}
-        {!user && <button onClick={handleLogin}>Login</button>}
-        {user && <button onClick={handleLogout}>Logout</button>}
+        {!user && <Button text={'Login'} onClick={handleLogin} />}
+        {user && <Button text={'Logout'} onClick={handleLogout} />}
       </nav>
     </header>
   );
