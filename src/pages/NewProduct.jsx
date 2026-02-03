@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import Button from '../components/ui/Button';
 import { uploadImage } from '../api/uploader';
+import { addNewProduct } from '../api/firebase';
 export default function NewProduct() {
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log(name);
-    console.log(value);
-    console.log(files);
     if (name === 'file') {
       setFile(files && files[0]);
       return;
@@ -17,11 +15,12 @@ export default function NewProduct() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    uploadImage(file).then((url) => {
-      console.log('url ', url);
-    });
     // 제품의 사진을 Cloudinary에 업로드 하고 URL을 획득
     // Firebase에 새로운 제품을 추가함
+    uploadImage(file).then((url) => {
+      console.log('url ', url);
+      addNewProduct(product, url);
+    });
   };
   return (
     <section>
