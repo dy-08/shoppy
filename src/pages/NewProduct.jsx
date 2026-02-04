@@ -2,11 +2,19 @@ import { useState } from 'react';
 import Button from '../components/ui/Button';
 import { uploadImage } from '../api/uploader';
 import { addNewProduct } from '../api/firebase';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 export default function NewProduct() {
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState();
+
+  const queryClient = useQueryClient();
+  const addProduct = useMutation({
+    mutationFn: ({ product, url }) => addNewProduct(product, url),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
+  });
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'file') {
@@ -23,18 +31,22 @@ export default function NewProduct() {
     // Firebase에 새로운 제품을 추가함
     uploadImage(file) //
       .then((url) => {
-        addNewProduct(product, url) //
-          .then(() => {
-            setSuccess('성공적으로 제품이 추가되었습니다.');
-            setTimeout(() => {
-              setSuccess(null);
-            }, 4000);
-          });
+        addProduct.mutate(
+          { product, url },
+          {
+            onSuccess: () => {
+              setSuccess('성공적으로 제품이 추가되었습니다.');
+              setTimeout(() => {
+                setSuccess(null);
+              }, 4000);
+            },
+          },
+        );
       })
       .finally(() => setIsUploading(false));
   };
   return (
-    <section className='w-[1440px] mx-auto text-center'>
+    <section className='text-center'>
       <h2 className='text-xl font-medium my-4'>새로운 제품 등록</h2>
       {success && <p className='my-2'>✅ {success}</p>}
       <div className='flex justify-center'>
