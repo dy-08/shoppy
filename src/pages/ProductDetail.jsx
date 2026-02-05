@@ -27,6 +27,7 @@ export default function ProductDetail() {
     const product = {
       id,
       image,
+      brand,
       title,
       price,
       option: selected,

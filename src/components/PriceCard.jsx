@@ -1,8 +1,9 @@
-export default function PriceCard({ text, price }) {
+export default function PriceCard({ text, price, variant = false }) {
+  const isTotal = variant === true;
   return (
-    <div className='bg-gray-50 p-8 mx-2 rounded-2xl text-center text-lg md:text-xl'>
-      <p>{text}</p>
-      <p className='font-bold text-brand text-xl md:text-2xl'>₩{price}</p>
+    <div className='flex justify-between text-base text-sm'>
+      <p className={isTotal ? 'font-semibold' : ''}>{text}</p>
+      <p className=''>{price.toLocaleString('ko-KR')}원</p>
     </div>
   );
 }

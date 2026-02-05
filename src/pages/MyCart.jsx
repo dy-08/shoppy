@@ -23,29 +23,42 @@ export default function MyCart() {
     );
 
   return (
-    <section className='p-8 flex flex-col'>
-      <p className='text-2xl text-center font-bold pb-4 border-b border-gray-300'>
-        내 장바구니
-      </p>
-      {!hasProducts && <p>장바구니에 상품이 없습니다. 열심히 쇼핑해 주세요!</p>}
-      {hasProducts && (
-        <>
-          <ul className='border-b border-gray-300 mb-8 p-4 px-8'>
-            {products &&
-              products.map((product) => (
-                <CartItem key={product.id} product={product} />
-              ))}
-          </ul>
-          <div className='flex justify-between items-center mb-6 px-2 md:px-8 lg:px-16'>
-            <PriceCard text='상품 총액' price={totalPrice} />
-            <BsFillPlusCircleFill className='shrink-0' />
-            <PriceCard text='배송액' price={SHIPPING} />
-            <FaEquals className='shrink-0' />
-            <PriceCard text='총가격' price={totalPrice + SHIPPING} />
-          </div>
-          <Button text='주문하기' />
-        </>
-      )}
+    <section className='px-8 bg-[#fafafa] font-pretendard'>
+      <div className='w-[1080px] mx-auto flex flex-col bg-[#f5f5f5] '>
+        <p className='text-base p-4 font-semibold pb-4 border-b border-gray-300'>
+          장바구니
+        </p>
+        {!hasProducts && (
+          <p>장바구니에 상품이 없습니다. 열심히 쇼핑해 주세요!</p>
+        )}
+        <div>
+          {hasProducts && (
+            <div className='flex gap-4'>
+              <ul className='flex-1 min-w-0 mb-8 p-4 px-8 bg-white'>
+                {products &&
+                  products.map((product) => (
+                    <CartItem key={product.id} product={product} />
+                  ))}
+              </ul>
+              <div className='w-[360px] h-[280px] shrink-0 flex flex-col bg-white mt-2 mr-4'>
+                <div className='flex flex-col gap-2 mb-6 px-4 py-5'>
+                  <p className='text-base mb-2 font-semibold'>구매 금액</p>
+                  <PriceCard text='상품 금액' price={totalPrice} />
+                  <PriceCard text='배송비' price={SHIPPING} />
+                  <div className='my-4 border-t border-gray-200' />
+                  <PriceCard
+                    text='총 구매 금액'
+                    price={totalPrice + SHIPPING}
+                    variant
+                  />
+                  <span className='mb-10'></span>
+                  <Button text='구매하기' />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
