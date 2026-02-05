@@ -23,6 +23,7 @@ export default function NewProduct() {
     e.preventDefault();
     setIsUploading(true);
 
+    console.log(product);
     // 제품의 사진을 Cloudinary에 업로드 하고 URL을 획득
     // Firebase에 새로운 제품을 추가함
     uploadImage(file) //
@@ -63,6 +64,22 @@ export default function NewProduct() {
             type='file'
             accept='image/*'
             name='file'
+            required
+            onChange={handleChange}
+          />
+          <input
+            type='text'
+            name='category'
+            value={product.category ?? ''}
+            placeholder='키워드'
+            required
+            onChange={handleChange}
+          />
+          <input
+            type='text'
+            name='brand'
+            value={product.brand ?? ''}
+            placeholder='브랜드명'
             required
             onChange={handleChange}
           />
