@@ -7,7 +7,16 @@ export default function ProductDetail() {
   const { addOrUpdateItem } = useCart();
   const {
     state: {
-      product: { id, image, title, description, price, options },
+      product: {
+        id,
+        image,
+        brand,
+        category,
+        title,
+        description,
+        price,
+        options,
+      },
     },
   } = useLocation();
   const [success, setSuccess] = useState();
@@ -15,10 +24,17 @@ export default function ProductDetail() {
   const handleSelect = (e) => setSelected(e.target.value);
   const handleClick = () => {
     // 장바구니
-    const product = { id, image, title, price, option: selected, quantity: 1 };
+    const product = {
+      id,
+      image,
+      title,
+      price,
+      option: selected,
+      quantity: 1,
+    };
     addOrUpdateItem.mutate(product, {
       onSuccess: () => {
-        setSuccess('✅ 장바구니에 추가되었습니다.');
+        setSuccess(`장바구니에 상품을 담았습니다.`);
         setTimeout(() => {
           setSuccess(null);
         }, 3000);
@@ -28,31 +44,42 @@ export default function ProductDetail() {
 
   return (
     <section>
-      <section className='flex flex-col md:flex-row p-2'>
-        <img className='w-full px-4 basis-7/12' src={image} alt={title} />
-        <div className='w-full basis-5/12 flex flex-col p-4'>
-          <h2 className='text-3xl font-bold py-2'>{title}</h2>
-          <p className='text-2xl font-bold py-2 border-b border-gray-400'>
-            ₩{price}
+      <section className='flex flex-col md:flex-row p-4 bg-[#fafafa]'>
+        <div className='w-full basis-9/13'>
+          <img className='w-[68%] mx-auto' src={image} alt={title} />
+        </div>
+        <div className='w-full basis-4/13 flex flex-col p-4 bg-white font-pretendard text-stone-900'>
+          <p className='text-sm font-semibold'>{brand}</p>
+          <p className='text-xs text-gray-400 mt-2'>{category}</p>
+          <p className='text-xl font-semibold'>{title}</p>
+          <p className='text-sm text-gray-400'>{description}</p>
+          <p className='text-lg font-semibold py-4 mb-4 border-b border-gray-100'>
+            ₩{price.toLocaleString('ko-KR')}
           </p>
-          <p className='text-lg py-4'>{description}</p>
-          <div className='flex items-center'>
-            <label className='text-brand font-bold' htmlFor='select'>
-              옵션:
+          <div className='flex items-center mb-4'>
+            <label className='text-sm font-semibold' htmlFor='select'>
+              사이즈
             </label>
             <select
-              className='p-2 m-4 flex-1 border-2 border-dashed border-brand outline-none'
+              className='px-2 py-1 m-2 flex-1 text-sm border-gray-300 border-[0.5px] outline-none rounded-sm'
               id='select'
               onChange={handleSelect}
               value={selected}
             >
               {options &&
                 options.map((option, index) => (
-                  <option key={index}>{option}</option>
+                  <option className='text-xs' key={index}>
+                    {option}
+                  </option>
                 ))}
             </select>
           </div>
-          {success && <p className='mt-2'>{success}</p>}
+          {success && (
+            <div className='my-2 flex gap-2 items-center'>
+              <img className='w-8 h-8 rounded-full' src={image} alt={title} />
+              <p className='text-sm font-pretendard font-semibold'>{success}</p>
+            </div>
+          )}
           <Button text={'장바구니에 추가'} onClick={handleClick} />
         </div>
       </section>
