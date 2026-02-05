@@ -1,10 +1,10 @@
-import Banner from '../components/Banner';
 import Products from '../components/Products';
+import Slide from '../components/Slide';
 
 export default function Home() {
   return (
     <>
-      <Banner />
+      <Slide />
       <Products />
     </>
   );

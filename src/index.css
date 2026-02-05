@@ -1,3 +1,4 @@
+@import url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard.css');
 @import 'tailwindcss';
 
 body {
@@ -26,7 +27,9 @@ body {
 @theme {
   --color-brand: #f96162;
   /* bg-banner */
-  --background-image-banner: url('/images/banner.jpg');
+  --background-image-banner: url('/images/banner.webp');
+  --background-image-korea: url('/images/korea.gif');
+  --font-pretendard: 'Pretendard', sans-serif;
 }
 
 input {

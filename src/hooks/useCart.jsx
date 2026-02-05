@@ -6,7 +6,6 @@ export default function useCart() {
   const { uid } = useAuthContext();
   const queryClient = useQueryClient();
 
-  console.log('hello');
   const cartQuery = useQuery({
     queryKey: ['carts', uid || ''],
     queryFn: () => getCart(uid),
