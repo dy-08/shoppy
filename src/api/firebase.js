@@ -111,9 +111,30 @@ export async function getCart(userId) {
 }
 
 export async function addOrUpdateToCart(userId, product) {
-  return set(ref(database, `carts/${userId}/${product.id}`), product);
+  const itemKey = product.productId + '_' + product.option;
+
+  const existing = await getCartItem(userId, itemKey);
+  console.log('existing', existing);
+
+  const toSave = existing
+    ? {
+        ...existing,
+        quantity: existing.quantity + product.quantity,
+      }
+    : product;
+
+  return set(ref(database, `carts/${userId}/${itemKey}`), toSave);
 }
 
-export async function removeFromCart(userId, productId) {
-  return remove(ref(database, `carts/${userId}/${productId}`));
+export async function removeFromCart(userId, itemKey) {
+  return remove(ref(database, `carts/${userId}/${itemKey}`));
+}
+
+async function getCartItem(userId, itemKey) {
+  if (!userId) return null;
+  return get(ref(database, `carts/${userId}/${itemKey}`)) //
+    .then((snapshot) => {
+      const item = snapshot.val() || null;
+      return item;
+    });
 }

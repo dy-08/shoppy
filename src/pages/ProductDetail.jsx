@@ -27,13 +27,12 @@ export default function ProductDetail() {
   const handleClick = () => {
     if (!user) {
       alert('로그인이 필요합니다.');
-      console.log('user', user);
       return;
     }
-    console.log('user', user);
     // 장바구니
     const product = {
-      id,
+      productId: id,
+      itemKey: id + '_' + selected,
       image,
       brand,
       title,

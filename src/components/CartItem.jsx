@@ -7,18 +7,21 @@ const ICON_CLASS =
 
 export default function CartItem({
   product,
-  product: { id, image, brand, title, option, quantity, price },
+  product: { itemKey, image, brand, title, option, quantity, price },
 }) {
   const { addOrUpdateItem, removeItem } = useCart();
 
   const handleMinus = () => {
     if (quantity < 2) return;
-    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
+    console.log(product.quantity);
+    addOrUpdateItem.mutate({ ...product, quantity: -1 });
   };
-  const handlePlus = () =>
-    addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
+  const handlePlus = () => {
+    console.log(product.quantity);
+    addOrUpdateItem.mutate({ ...product, quantity: +1 });
+  };
 
-  const handleDelete = () => removeItem.mutate(id);
+  const handleDelete = () => removeItem.mutate(itemKey);
 
   return (
     <li className='flex flex-col justify-between my-2'>
@@ -34,7 +37,7 @@ export default function CartItem({
               {quantity}개
             </p>
             <p className='text-sm font-semibold'>
-              {price.toLocaleString('ko-KR')}원
+              {(price * quantity).toLocaleString('ko-KR')}원
             </p>
           </div>
           <AiOutlineClose className={ICON_CLASS} onClick={handleDelete} />
