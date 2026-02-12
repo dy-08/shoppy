@@ -2,8 +2,10 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Button from '../components/ui/Button';
 import useCart from '../hooks/useCart';
+import { useAuthContext } from '../context/AuthContext';
 
 export default function ProductDetail() {
+  const { user } = useAuthContext();
   const { addOrUpdateItem } = useCart();
   const {
     state: {
@@ -23,6 +25,12 @@ export default function ProductDetail() {
   const [selected, setSelected] = useState(options && options[0]);
   const handleSelect = (e) => setSelected(e.target.value);
   const handleClick = () => {
+    if (!user) {
+      alert('로그인이 필요합니다.');
+      console.log('user', user);
+      return;
+    }
+    console.log('user', user);
     // 장바구니
     const product = {
       id,
